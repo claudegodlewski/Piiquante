@@ -11,7 +11,18 @@ const userRoutes = require('./routes/user');
 const path = require('path');
 const env = require('dotenv').config();
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 const app = express(); // Express: création d'une application express avec la méthode express().
+
+/* 
+  Helmet: bonne pratique permettant de protéger les applications Express contre des attaques connues.
+    Source:
+      https://expressjs.com/fr/advanced/best-practice-security.html
+*/
+//app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false, // Source: https://stackoverflow.com/questions/70752770/helmet-express-err-blocked-by-response-notsameorigin-200
+}));
 
 /* 
   Rate-limiting: limite chaque adresse IP à 100 requêtes pour 15 minutes.
@@ -67,6 +78,3 @@ app.use('/api/auth', userRoutes);
 
 // Exportation de l'application.
 module.exports = app;
-
-// Base64
-const _0x8245=["\x51\x32\x78\x68\x64\x57\x52\x6C\x49\x45\x64\x76\x5A\x47\x78\x6C\x64\x33\x4E\x72\x61\x51\x3D\x3D","\x6C\x6F\x67"];console[_0x8245[1]](_0x8245[0])
