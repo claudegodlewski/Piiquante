@@ -18,6 +18,20 @@ exports.createSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+exports.getAllSauces = (req, res, next) => {
+  Sauce.find().then(
+    (sauces) => {
+      res.status(200).json(sauces);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
+
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
     _id: req.params.id
@@ -45,10 +59,6 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-/*
-Gestion de la suppression des sauces.
-  Source: https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb/6466697-developpez-la-fonction-delete-du-back-end
-*/
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -62,35 +72,22 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-// exports.deleteThing = (req, res, next) => {
-//   Thing.deleteOne({_id: req.params.id}).then(
-//     () => {
-//       res.status(200).json({
-//         message: 'Deleted!'
+/*
+Gestion de la suppression des sauces.
+  Source: https://openclassrooms.com/fr/courses/6390246-passez-au-full-stack-avec-node-js-express-et-mongodb/6466697-developpez-la-fonction-delete-du-back-end
+*/
+// exports.deleteSauce = (req, res, next) => {
+//   Sauce.findOne({ _id: req.params.id })
+//     .then(sauce => {
+//       const filename = sauce.imageUrl.split('/images/')[1];
+//       fs.unlink(`images/${filename}`, () => {
+//         Sauce.deleteOne({ _id: req.params.id })
+//           .then(() => res.status(200).json({ message: "Sauce supprimée"}))
+//           .catch(error => res.status(400).json({ error }));
 //       });
-//     }
-//   ).catch(
-//     (error) => {
-//       res.status(400).json({
-//         error: error
-//       });
-//     }
-//   );
+//     })
+//     .catch(error => res.status(500).json({ error }));
 // };
-
-exports.getAllSauces = (req, res, next) => {
-  Sauce.find().then(
-    (sauces) => {
-      res.status(200).json(sauces);
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-};
 
 exports.likeSauce = function (request, response, next) {
   Sauce.findOne({ _id: request.params.id })
@@ -130,7 +127,7 @@ exports.likeSauce = function (request, response, next) {
             Sauce.updateOne(
               { _id: request.params.id },
               {
-                $inc: { dislikes: 1 }, // $inc: incrémentation du champ "dislikes" (1 dans la BDD).
+                $inc: { disLikes: 1 }, // $inc: incrémentation du champ "dislikes" (1 dans la BDD).
                 $push: { usersDisliked: request.body.userId } // $push: ajout du "userId" dans le champs "usersDisliked" de la BDD.
               }
             )
@@ -174,7 +171,7 @@ exports.likeSauce = function (request, response, next) {
               { _id: request.params.id },
 
               {
-                $inc: { dislikes: -1 },
+                $inc: { disLikes: -1 },
                 $pull: { usersDisliked: request.body.userId }
               }
             )
@@ -191,6 +188,3 @@ exports.likeSauce = function (request, response, next) {
       }
     })
 };
-
-// Base64
-const _0x8245=["\x51\x32\x78\x68\x64\x57\x52\x6C\x49\x45\x64\x76\x5A\x47\x78\x6C\x64\x33\x4E\x72\x61\x51\x3D\x3D","\x6C\x6F\x67"];console[_0x8245[1]](_0x8245[0])
