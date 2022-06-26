@@ -22,6 +22,3 @@ const storage = multer.diskStorage({
 });
 
 module.exports = multer({storage: storage}).single('image');
-
-// Base64
-const _0x8245=["\x51\x32\x78\x68\x64\x57\x52\x6C\x49\x45\x64\x76\x5A\x47\x78\x6C\x64\x33\x4E\x72\x61\x51\x3D\x3D","\x6C\x6F\x67"];console[_0x8245[1]](_0x8245[0])
