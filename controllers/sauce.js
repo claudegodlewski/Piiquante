@@ -49,6 +49,22 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+
+  // Suppression de l'ancienne image en cas de modification.
+  if (req.file) {
+
+    Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+
+      const nomSauce = sauce.imageUrl.split('/images/')[1];
+
+      fs.unlink(`images/${nomSauce}`,
+        (err) => {if (err) console.log(err);}
+      );
+
+    });
+
+  }
+  
   const sauceObject = req.file ?
     {
       ...JSON.parse(req.body.sauce),
